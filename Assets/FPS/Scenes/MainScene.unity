@@ -195,7 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1079131688935146742, guid: c57397864e5d9f44992b229479232bcf,
     type: 3}
-  poolSize: 10
+  poolSize: 100
 --- !u!4 &234861928
 Transform:
   m_ObjectHideFlags: 0
@@ -804,6 +804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPoolManager: {fileID: 234861927}
   wallToRemove: {fileID: 1150618641}
+  EnemiesToDestroy: 10
 --- !u!4 &1049636498
 Transform:
   m_ObjectHideFlags: 0
