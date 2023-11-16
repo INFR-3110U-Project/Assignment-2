@@ -144,8 +144,7 @@ namespace Unity.FPS.AI
 
             if (OnDetectSfx)
             {
-                //AudioUtiliy.CreateSFX(OnDetectSfx, transform.position, AudioUtility.AudioGroups.EnemyDetection, 1f);
-                SoundManager.instance.playSound("Detection", transform.position);
+                AudioUtility.CreateSFX(OnDetectSfx, transform.position, AudioUtility.AudioGroups.EnemyDetection, 1f);
             }
 
             Animator.SetBool(k_AnimIsActiveParameter, true);

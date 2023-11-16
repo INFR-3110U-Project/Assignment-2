@@ -1,45 +1,10 @@
 ﻿using Unity.FPS.Game;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using MyNamespace;
-
-
 
 namespace Unity.FPS.Gameplay
 {
     public class PlayerInputHandler : MonoBehaviour
     {
-
-        private ICommand shootCommand;
-
-        public Camera playerCamera;
-
-        private void Start1()
-        {
-            // Find the Camera component attached to this GameObject.
-          
-        }
-
-        private void Start2()
-        {
-            // Initialize the shootCommand here by creating an instance of ShootCommand.
-            // You may need to provide a reference to the camera component as an argument.
-           
-        }
-
-        private void Update()
-        {
-            if (Input.GetButtonDown("m"))
-            {
-                // Execute the ShootCommand when input is detected.
-                if (shootCommand != null)
-                {
-                    shootCommand.Execute();
-                }
-            }
-        }
-
         [Tooltip("Sensitivity multiplier for moving the camera around")]
         public float LookSensitivity = 1f;
 
@@ -69,19 +34,7 @@ namespace Unity.FPS.Gameplay
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
-            //playerCamera = GetComponent<Camera>();
-
-            //if (playerCamera == null)
-            //{
-            //    Debug.LogError("Player Camera not found.");
-            //}
-
-            // Initialize the shootCommand here by creating an instance of ShootCommand.
-            // You may need to provide a reference to the camera component as an argument.
-            shootCommand = new ShootCommand(playerCamera);
         }
-
 
         void LateUpdate()
         {
@@ -310,18 +263,5 @@ namespace Unity.FPS.Gameplay
 
             return 0f;
         }
-        /// <summary>
-        /// Added this to call method
-        /// </summary>
-        /// <returns></returns>
-        public bool GetPickUpSpawnInput()
-        {
-            if (CanProcessInput())
-            {
-                return Input.GetKeyDown(KeyCode.I);
-            }
-            return false;
-        }
     }
-
 }
