@@ -362,7 +362,8 @@ namespace Unity.FPS.AI
             
                 // play the damage tick sound
                 if (DamageTick && !m_WasDamagedThisFrame)
-                    AudioUtility.CreateSFX(DamageTick, transform.position, AudioUtility.AudioGroups.DamageTick, 0f);
+                    //AudioUtiliy.CreateSFX(DamageTick, transform.position, AudioUtility.AudioGroups.DamageTick, 0f);
+                    SoundManager.instance.playSound("Damage", transform.position);
             
                 m_WasDamagedThisFrame = true;
             }
