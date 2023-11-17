@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Unity.FPS.Game;
+using Unity;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -88,6 +89,9 @@ namespace Unity.FPS.AI
         public UnityAction onDetectedTarget;
         public UnityAction onLostTarget;
         public UnityAction onDamaged;
+        //observer pattern
+        public delegate void onAnyEnemyDamage();
+        public static event onAnyEnemyDamage onEnemyDamage;
 
         List<RendererIndexData> m_BodyRenderers = new List<RendererIndexData>();
         MaterialPropertyBlock m_BodyFlashMaterialPropertyBlock;
@@ -347,6 +351,13 @@ namespace Unity.FPS.AI
                 DetectionModule.OnDamaged(damageSource);
                 
                 onDamaged?.Invoke();
+
+                //score check for enemy hit
+                if (onEnemyDamage != null)
+                {
+                    onEnemyDamage();
+                }
+
                 m_LastTimeDamaged = Time.time;
             
                 // play the damage tick sound
@@ -361,19 +372,29 @@ namespace Unity.FPS.AI
         {
             // spawn a particle system when dying
             var vfx = Instantiate(DeathVfx, DeathVfxSpawnPoint.position, Quaternion.identity);
-            Destroy(vfx, 5f);
+            Destroy(vfx, 5f);            
 
-            // tells the game flow manager to handle the enemy destuction
-            m_EnemyManager.UnregisterEnemy(this);
-
-            // loot an object
-            if (TryDropItem())
+            // Check if the enemy is managed by the EnemyPoolManager
+            EnemyPoolManager enemyPoolManager = FindObjectOfType<EnemyPoolManager>();
+            if (enemyPoolManager.IsEnemyInPool(this.gameObject))
             {
-                Instantiate(LootPrefab, transform.position, Quaternion.identity);
+                // Return the enemy to the pool instead of destroying it
+                enemyPoolManager.ReturnEnemyToPool(gameObject);
             }
+            else
+            {
+                // tells the game flow manager to handle the enemy destuction
+                m_EnemyManager.UnregisterEnemy(this);
 
-            // this will call the OnDestroy function
-            Destroy(gameObject, DeathDuration);
+                // loot an object
+                if (TryDropItem())
+                {
+                    Instantiate(LootPrefab, transform.position, Quaternion.identity);
+                }
+
+                // If no EnemyPoolManager is found, destroy the enemy as before
+                Destroy(gameObject, DeathDuration);
+            }
         }
 
         void OnDrawGizmosSelected()

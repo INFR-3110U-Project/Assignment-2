@@ -133,6 +133,9 @@ namespace Unity.FPS.Gameplay
         const float k_JumpGroundingPreventionTime = 0.2f;
         const float k_GroundCheckDistanceInAir = 0.07f;
 
+        //Things added for Assignments
+        PickupFactory pickupFactory;
+
         void Awake()
         {
             ActorsManager actorsManager = FindObjectOfType<ActorsManager>();
@@ -168,6 +171,8 @@ namespace Unity.FPS.Gameplay
             // force the crouch state to false when starting
             SetCrouchingState(false, true);
             UpdateCharacterHeight(true);
+
+            pickupFactory = GetComponent<PickupFactory>();
         }
 
         void Update()
@@ -214,7 +219,20 @@ namespace Unity.FPS.Gameplay
             UpdateCharacterHeight(false);
 
             HandleCharacterMovement();
+
+            //Things added for Assignments
+            if (m_InputHandler.GetPickUpSpawnInput())
+            {
+                SpawnPickup("Pickup_Jetpack"); // Pass the pickup type as a string
+            }
+
         }
+        //Things added for Assignments
+        void SpawnPickup(string type)
+        {
+            GameObject newPickup = pickupFactory.CreatePickup(type);
+        }
+
 
         void OnDie()
         {
@@ -474,4 +492,5 @@ namespace Unity.FPS.Gameplay
             return true;
         }
     }
+
 }
