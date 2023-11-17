@@ -74,11 +74,7 @@ namespace Unity.FPS.Gameplay
 
             if (PickupSfx)
             {
-                //AudioUtility.CreateSFX(PickupSfx, transform.position, AudioUtility.AudioGroups.Pickup, 0f);
-                if (SoundManager.instance != null)
-                {
-                    SoundManager.instance.playSound("pickupWeapon", transform.position);
-                }
+                AudioUtility.CreateSFX(PickupSfx, transform.position, AudioUtility.AudioGroups.Pickup, 0f);
             }
 
             if (PickupVfxPrefab)
