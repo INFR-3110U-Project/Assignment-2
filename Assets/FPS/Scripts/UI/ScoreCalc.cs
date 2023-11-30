@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ScoreCalc : MonoBehaviour
+public class ScoreCalc : MonoBehaviour, IDataPersistance
 {
     int currentScore;
     public TMP_Text scoreText;
@@ -34,5 +34,19 @@ public class ScoreCalc : MonoBehaviour
     void UpdateScore()
     {
         currentScore += 100;
+    }
+
+    //save stuff
+    public void LoadData(GameData data)
+    {
+        if (data.currentScore != 0)
+        {
+            this.currentScore = data.currentScore;
+        }
+    }
+    //load stuff
+    public void SaveData(ref GameData data)
+    {
+        data.currentScore = this.currentScore;
     }
 }
